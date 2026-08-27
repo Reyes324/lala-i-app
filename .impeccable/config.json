@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "/Users/zzz/Desktop/lala-i下载指引/index.html"
+        ],
+        "createdAt": "2026-08-27T03:30:53.933Z",
+        "reason": "zoomImg lightbox placeholder, src set dynamically on click"
+      }
+    ]
+  }
+}
