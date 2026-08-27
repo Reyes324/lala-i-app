@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-08-27T03:30:53.933Z",
         "reason": "zoomImg lightbox placeholder, src set dynamically on click"
+      },
+      {
+        "rule": "layout-transition",
+        "value": "width",
+        "files": [
+          "/Users/zzz/Desktop/lala-i下载指引/index.html"
+        ],
+        "createdAt": "2026-08-27T07:33:16.495Z",
+        "reason": "tab-indicator is position:absolute, isolated from document flow, click-triggered (not scroll-linked); pure-transform scaleX alternative distorts the pill's rounded corners into ellipses"
       }
     ]
   }
