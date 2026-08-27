@@ -74,7 +74,9 @@
     font-family: var(--font-brand); font-size: 15px; font-weight: 600; cursor: pointer;
     padding: 11px 22px; border-radius: 999px; border: none; background: transparent; color: var(--fg-3);
     transition: color var(--dur) var(--ease-out);
+    -webkit-appearance: none; appearance: none; outline: none; touch-action: manipulation;
   }
+  .tab-btn:focus { outline: none; }
   .tab-btn.active { color: var(--fg-1); }
 
   .panel { margin: clamp(20px, 3vw, 28px) 0 0; display: none; }
