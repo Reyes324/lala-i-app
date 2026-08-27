@@ -60,18 +60,25 @@
   }
 
   .tabs {
-    display: flex; align-items: center; gap: 6px; margin: clamp(24px, 3vw, 32px) 0 0;
+    position: relative; display: flex; align-items: center; gap: 6px; margin: clamp(24px, 3vw, 32px) 0 0;
     padding: 6px; background: var(--n-50); border-radius: 999px; width: max-content;
   }
+  .tab-indicator {
+    position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0;
+    background: #fff; border-radius: 999px; box-shadow: var(--shadow-sm);
+    transition: transform 240ms var(--ease-out), width 240ms var(--ease-out);
+  }
   .tab-btn {
+    position: relative; z-index: 1;
     font-family: var(--font-brand); font-size: 15px; font-weight: 600; cursor: pointer;
     padding: 11px 22px; border-radius: 999px; border: none; background: transparent; color: var(--fg-3);
-    transition: all var(--dur) var(--ease-out);
+    transition: color var(--dur) var(--ease-out);
   }
-  .tab-btn.active { background: #fff; box-shadow: var(--shadow-sm); color: var(--fg-1); }
+  .tab-btn.active { color: var(--fg-1); }
 
   .panel { margin: clamp(20px, 3vw, 28px) 0 0; display: none; }
-  .panel.active { display: block; }
+  .panel.active { display: block; animation: panelIn 240ms var(--ease-out); }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .panel > .lead { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--fg-2); }
 
   .cta-btn {
@@ -108,9 +115,9 @@
     border-radius: 10px; padding: 12px 14px; margin-top: 12px;
   }
   .step-warn span { font-size: 13px; line-height: 1.6; color: var(--warning-fg); }
-  .step img { width: 100%; max-width: 900px; height: auto; margin-top: 14px; border-radius: 12px; display: block; cursor: zoom-in; background: var(--n-100); }
+  .step img { width: calc(100% + 38px); max-width: 938px; margin-left: -38px; height: auto; margin-top: 14px; border-radius: 12px; display: block; cursor: zoom-in; background: var(--n-100); }
   @media (max-width: 640px) {
-    .step img.step-img { max-width: 420px; }
+    .step img.step-img { max-width: 458px; }
   }
 
   h2 {
@@ -183,6 +190,7 @@
   </div>
 
   <div class="tabs">
+    <span class="tab-indicator" id="tabIndicator"></span>
     <button class="tab-btn" id="tabIOS" data-en="iPhone" data-cn="苹果手机">苹果手机</button>
     <button class="tab-btn" id="tabAndroid" data-en="Android" data-cn="安卓手机">安卓手机</button>
   </div>
@@ -336,6 +344,12 @@
   const tabAndroid = document.getElementById('tabAndroid');
   const panelIOS = document.getElementById('panelIOS');
   const panelAndroid = document.getElementById('panelAndroid');
+  const tabIndicator = document.getElementById('tabIndicator');
+
+  function moveIndicator(btn) {
+    tabIndicator.style.width = btn.offsetWidth + 'px';
+    tabIndicator.style.transform = `translateX(${btn.offsetLeft - 6}px)`;
+  }
 
   function selectTab(which) {
     const ios = which === 'ios';
@@ -343,10 +357,12 @@
     tabAndroid.classList.toggle('active', !ios);
     panelIOS.classList.toggle('active', ios);
     panelAndroid.classList.toggle('active', !ios);
+    moveIndicator(ios ? tabIOS : tabAndroid);
   }
   tabIOS.addEventListener('click', () => selectTab('ios'));
   tabAndroid.addEventListener('click', () => selectTab('android'));
   selectTab(platform === 'android' ? 'android' : 'ios');
+  window.addEventListener('resize', () => moveIndicator(tabIOS.classList.contains('active') ? tabIOS : tabAndroid));
 
   let lang = 'cn';
   function applyLang() {
